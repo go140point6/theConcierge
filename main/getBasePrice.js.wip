@@ -1,0 +1,97 @@
+require('dotenv').config({ path: '../.env' }) // Load .env file from root!
+require('log-timestamp')
+const ethers = require('ethers')
+const fs = require('fs')
+const { registryFlrFtsoInstance } = require('../utils/connectFlareInstances');
+const { registrySgbFtsoInstance } = require('../utils/connectSongbirdInstances');
+
+//let registryFtsoInstance
+let baseToken
+
+async function getNetwork(network) {
+  console.log(registrySgbFtsoInstance)
+  if (network === 'songbird') {
+    let registryFtsoInstance = registrySgbFtsoInstance
+    console.log(registryFtsoInstance)
+    baseToken = 'sgb'
+    return {
+      registryFtsoInstance,
+      baseToken
+    }
+  } else if ( network === 'flare' ) {
+    let registryFtsoInstance = registryFlrFtsoInstance
+    baseToken = 'flr'
+    return {
+      registryFtsoInstance,
+      baseToken
+    }
+  } else {
+    console.log("Some error with network")
+  }
+}
+
+async function getCurrentPrice(registryFtsoInstance, baseToken) {
+  console.log(registryFtsoInstance)
+  /*
+  try {
+    //const results = await registryFtsoInstance["getCurrentPriceWithDecimals(string)"](baseToken.toUpperCase())
+    const results = await registryFtsoInstance["getCurrentPriceWithDecimals(string)"]('SGB')
+    let decimals = Number(results._assetPriceUsdDecimals)
+    let baseUSD = Number(results._price) / 10 ** decimals
+    return baseUSD
+  } catch (error) {
+    console.log('Error', error)
+  }
+  */
+}
+
+async function getBasePrice(network) {
+  try {
+    await getNetwork(network)
+    .then(({ registryFtsoInstance, baseToken }) => {
+      console.log(baseToken)
+      console.log(registryFtsoInstance)
+      getCurrentPrice(registryFtsoInstance, baseToken)
+    })
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+/*
+async function getCurrentPrice(ftsoRegistryAddress) {
+  try {
+    const results = await registryFtsoInstance["getCurrentPriceWithDecimals(string)"](`${process.env.BASE_TOKEN}`.toUpperCase());
+    let decimals = Number(results._assetPriceUsdDecimals);
+    let baseUSD = Number(results._price) / 10 ** decimals;
+    return baseUSD
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function getBasePrice() {
+  const registryContractInstance = new ethers.Contract(
+    contractRegistryAddress,
+    abiContractRegistry,
+    provider
+  )
+
+  try {
+    const result = await registryContractInstance.getContractAddressByName("FtsoRegistry")
+    const ftsoRegistryAddress = result
+    let baseUSD = await getCurrentPrice(ftsoRegistryAddress);
+    //console.log(`${base} token is ${process.env.CURRENCY_SYMBOL}${baseUSD}`) 
+    //console.log(baseUSD)
+    return baseUSD
+  } catch (error) {
+    console.log('Error'. error)
+  }
+}
+
+//getBasePrice()
+*/
+
+module.exports = { 
+  getBasePrice
+}

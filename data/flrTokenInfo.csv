@@ -1,0 +1,4 @@
+nick,ticker,fullname,address,decimals,pt_fixed
+buny,BUNNY,BunnyToken,0x1aa5282692398c078e71fb3e4a85660d1bf8f586,18,5
+flr,FLR,Flare,0x1d80c49bbbcd1c0911346656b529df9e5c2f783d,18,5
+pfl,PFL,Pangolin Flare,0xb5010d5eb31aa8776b52c7394b76d6d627501c73,18,5

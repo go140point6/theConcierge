@@ -1,0 +1,3 @@
+nick,name,router,abi
+pg,Pangolin,0xA981cb468c87Ed32F37dE546e25a7c5FF17e2308,flrPangolinRouter.abi
+bz,BlazeSwap,0x4d3532305C6dF6084bBCb724ddfeA14043d757b5,flrBlazeSwapRouter.abi

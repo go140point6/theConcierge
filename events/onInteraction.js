@@ -4,6 +4,9 @@ async function onInteraction(interaction) {
         await command.execute(interaction);
     } else if (interaction.isButton()) {
         //console.log(interaction);
+    } else if (interaction.isStringSelectMenu()) {
+        //console.log(interaction)
+        //interaction.reply({ content: 'SGB' })
     } else {
         return;
     }

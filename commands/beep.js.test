@@ -1,4 +1,3 @@
-// Example beep-boop (no embeds)
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {

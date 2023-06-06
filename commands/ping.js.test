@@ -1,4 +1,3 @@
-// Example ping-pong with Embed
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 const embedPing = new EmbedBuilder()
