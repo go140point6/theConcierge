@@ -31,7 +31,7 @@ const slashCommand = new SlashCommandBuilder()
 module.exports = {
     data: slashCommand,
     async execute(interaction) {
-        await interaction.deferReply();  //requires interaction.editReply
+        //await interaction.deferReply();  //requires interaction.editReply
 
         mingos = (interaction.options.getString("mingos", true))
 
@@ -67,7 +67,7 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: 'Pool size is currently 1776 (Flaremingos and Flaremingo Frens). Some FLR may still need to be wrapped.' });
         
-            interaction.editReply({ embeds: [embed]});
+            interaction.reply({ embeds: [embed], ephemeral: true });
         } catch(error) {
             console.log(error)
             const embed = new EmbedBuilder()
@@ -80,7 +80,7 @@ module.exports = {
             .setTimestamp()
             //.setFooter({ text: 'Pool size is currently 1776 (Flaremingos and Flaremingo Frens). Some FLR may still need to be wrapped.' });
         
-            interaction.editReply({ embeds: [embed]});
+            interaction.reply({ embeds: [embed], ephemeral: true });
         }
     }
 }
