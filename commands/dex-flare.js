@@ -50,7 +50,7 @@ const slashCommand = new SlashCommandBuilder()
 module.exports = {
     data: slashCommand,
     async execute(interaction) {
-        await interaction.deferReply();  //requires interaction.editReply
+        await interaction.deferReply(({ ephemeral: true }));  //requires interaction.editReply
 
         const sellToken = (interaction.options.getString("sell-token", true))
         const amount = (interaction.options.getNumber("amount", true))
