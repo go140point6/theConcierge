@@ -3,11 +3,9 @@ require('dotenv').config();
 const fs = require('node:fs');
 // Node's native path utility module. path helps construct paths to access files and directories. One of the advantages of the path module is that it automatically detects the operating system and uses the appropriate joiners.
 const path = require('node:path');
-//const client = require('../index');
 const { REST, Routes, Collection } = require('discord.js');
-const axios = require('axios'); // Required for getXRP example below
-//const { connectFlare, registryFlrFtsoInstance, managerFlrFtsoInstance } = require('../utils/connectFlareInstances');
-//const { connectSongbird, registrySgbFtsoInstance, managerSgbFtsoInstance } = require('../utils/connectSongbirdInstances');
+//const axios = require('axios'); // Required for getXRP example below
+const { getPoolChanges } = require('../main/getPoolChanges');
 
 function onReady(client) {
     console.log(`Ready! Logged in as ${client.user.tag}`)
@@ -53,10 +51,16 @@ function onReady(client) {
 	    }
     })();
 
+
     // This is an example of how to run a function based on a time value
     // In this example, getting XRP price and updating it every 5 minutes
     //getXRPToken(); 
     //setInterval(getXRPToken, Math.max(1, 5 || 1) * 60 * 1000);
+
+    getPoolChanges(client)
+    setInterval(() => {
+        getPoolChanges(client)
+    }, 2 * 60 * 1000) // 2 minutes
 }
 
 async function getXRP() {

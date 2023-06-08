@@ -15,7 +15,16 @@ const createDecimalFormatter = (minFractionDigits, maxFractionDigits) => {
     });
   };
 
+  const createPercentFormatter = (minFractionDigits, maxFractionDigits) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'percent',
+      minimumFractionDigits: minFractionDigits,
+      maximumFractionDigits: maxFractionDigits,
+    });
+  };
+
 module.exports = {
     createCurrencyFormatter,
-    createDecimalFormatter
+    createDecimalFormatter,
+    createPercentFormatter
 }

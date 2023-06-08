@@ -9,6 +9,7 @@ const { validateEnv } = require('./utils/validateEnv');
 const { createMainArray, createSupportArrays } = require('./utils/createArrays');
 const { connectSongbird } = require('./utils/connectSongbirdInstances');
 const { connectFlare } = require('./utils/connectFlareInstances');
+const { createCurrencyFormatter, createDecimalFormatter, createPercentFormatter } = require('./utils/intlNumberFormats');
 
 (async () => {
     validateEnv();
@@ -55,8 +56,6 @@ const { connectFlare } = require('./utils/connectFlareInstances');
 
     client.on(Events.InteractionCreate, async interaction => {
         onInteraction(interaction)
-        //console.log(interaction.commandName)
-        //console.log(interaction);
     });
 
     client.on(Events.MessageCreate, async(message) => await onMessage(message));
