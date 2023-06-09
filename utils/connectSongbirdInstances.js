@@ -3,9 +3,6 @@ require('log-timestamp')
 const ethers = require('ethers')
 const fs = require('fs')
 
-let registrySgbFtsoInstance
-let managerSgbFtsoInstance
-
 async function connectSongbird() {
   // All Flare's smart contracts (Flare, Songbird, Conston, Conston2) retrieved from here
   // Use it to get all other contracts (by name for example) 
@@ -46,21 +43,6 @@ async function connectSongbird() {
   } 
 }
 
-/*
-connectSongbird()
-  .then(({ registrySgbFtsoInstance, managerSgbFtsoInstance }) => {
-    //console.log(registrySgbFtsoInstance)
-    //console.log(managerSgbFtsoInstance)
-    //module.exports.registrySgbFtsoInstance = registrySgbFtsoInstance
-    //module.exports.managerSgbFtsoInstance = managerSgbFtsoInstance
-  })
-  .catch(error => {
-    console.error('Error occurred during initialization:', error)
-  })
-*/
-
 module.exports = { 
-  connectSongbird,
-  //registrySgbFtsoInstance,
-  //managerSgbFtsoInstance
+  connectSongbird
 }

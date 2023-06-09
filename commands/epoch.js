@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const client = require('../index')
 //const { client, registrySgbFtsoInstance, managerSgbFtsoInstance } = require('../index')
 //const { registrySgbFtsoInstance, managerSgbFtsoInstance } = require('../index')
+const { managerFlrFtsoInstance } = require('../events/onReady');
 
 
 const slashCommand = new SlashCommandBuilder()
@@ -37,10 +38,11 @@ module.exports = {
         //let managerSgbFtsoInstance = client.managerSgbFtsoInstance
 
         //console.log(registrySgbFtsoInstance)
-        //console.log(managerSgbFtsoInstance)
+        console.log(managerFlrFtsoInstance)
 
         if (network === 'flare') {
-            managerFtsoInstance = client.managerFlrFtsoInstance
+            //managerFtsoInstance = client.managerFlrFtsoInstance
+            managerFtsoInstance = managerFlrFtsoInstance
         } else if (network === 'songbird') {
             managerFtsoInstance = client.managerSgbFtsoInstance
         }

@@ -7,8 +7,8 @@ const { onInteraction } = require('./events/onInteraction');
 const { onMessage } = require('./events/onMessage');
 const { validateEnv } = require('./utils/validateEnv');
 const { createMainArray, createSupportArrays } = require('./utils/createArrays');
-const { connectSongbird } = require('./utils/connectSongbirdInstances');
-const { connectFlare } = require('./utils/connectFlareInstances');
+// const { connectSongbird } = require('./utils/connectSongbirdInstances');
+// const { connectFlare } = require('./utils/connectFlareInstances');
 const { createCurrencyFormatter, createDecimalFormatter, createPercentFormatter } = require('./utils/intlNumberFormats');
 
 (async () => {
@@ -25,6 +25,7 @@ const { createCurrencyFormatter, createDecimalFormatter, createPercentFormatter 
         console.error(error)
     })
 
+    /*
     connectSongbird()
     .then(( {registrySgbFtsoInstance, managerSgbFtsoInstance, wNatFlrInstance} ) => {
         console.log('Songbird FTSO registry initialized.')
@@ -48,6 +49,7 @@ const { createCurrencyFormatter, createDecimalFormatter, createPercentFormatter 
     .catch((error) => {
         console.error(error)
     })
+    */
 
     const client = new Client({ intents: GatewayIntentBits });
     module.exports = client;

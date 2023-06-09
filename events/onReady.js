@@ -6,8 +6,12 @@ const path = require('node:path');
 const { REST, Routes, Collection } = require('discord.js');
 //const axios = require('axios'); // Required for getXRP example below
 const { getPoolChanges } = require('../main/getPoolChanges');
+const { connectSongbird } = require('../utils/connectSongbirdInstances');
+const { connectFlare } = require('../utils/connectFlareInstances');
 
-function onReady(client) {
+let wNatFlrInst
+
+async function onReady(client) {
     console.log(`Ready! Logged in as ${client.user.tag}`)
     
     client.commands = new Collection();
@@ -57,10 +61,42 @@ function onReady(client) {
     //getXRPToken(); 
     //setInterval(getXRPToken, Math.max(1, 5 || 1) * 60 * 1000);
 
-    getPoolChanges(client)
-    setInterval(() => {
-        getPoolChanges(client)
-    }, 2 * 60 * 1000) // 2 minutes
+    await connectFlare()
+    .then(( {registryFlrFtsoInstance, managerFlrFtsoInstance, wNatFlrInstance} ) => {
+        console.log('Flare FTSO registry initialized.')
+        console.log('Flare FTSO manager initialized.')
+        console.log('Flare WNat initialized.')
+        console.log(managerFlrFtsoInstance)
+        wNatFlrInst = wNatFlrInstance
+        module.exports.registryFlrFtsoInstance = registryFlrFtsoInstance
+        module.exports.managerFlrFtsoInstance = managerFlrFtsoInstance
+        module.exports.wNatFlrInstance = wNatFlrInstance
+    })
+    .then(() => {
+        getPoolChanges(client, wNatFlrInst)
+        setInterval(() => {
+            getPoolChanges(client, wNatFlrInst)
+        }, 2 * 60 * 1000) // 2 minutes
+    })
+    .catch((error) => {
+        console.error(error)
+    })
+
+    await connectSongbird()
+    .then(( {registrySgbFtsoInstance, managerSgbFtsoInstance, wNatFlrInstance} ) => {
+        console.log('Songbird FTSO registry initialized.')
+        console.log('Songbird FTSO manager initialized.')
+        module.exports.registrySgbFtsoInstance = registrySgbFtsoInstance
+        module.exports.managerSgbFtsoInstance = managerSgbFtsoInstance
+    })
+    .catch((error) => {
+        console.error(error)
+    })
+
+    // getPoolChanges(client)
+    // setInterval(() => {
+    //     getPoolChanges(client)
+    // }, 2 * 60 * 1000) // 2 minutes
 }
 
 async function getXRP() {
