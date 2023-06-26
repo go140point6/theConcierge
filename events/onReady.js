@@ -6,6 +6,7 @@ const path = require('node:path');
 const { REST, Routes, Collection } = require('discord.js');
 //const axios = require('axios'); // Required for getXRP example below
 const { getPoolChanges } = require('../main/getPoolChanges');
+const { getMint } = require('../main/getMintChanges');
 
 function onReady(client) {
     console.log(`Ready! Logged in as ${client.user.tag}`)
@@ -61,6 +62,11 @@ function onReady(client) {
     setInterval(() => {
         getPoolChanges(client)
     }, 2 * 60 * 1000) // 2 minutes
+
+    getMint(client)
+    setInterval(() => {
+        getMint(client)
+    }, 30 * 60 * 1000) // 30 minutes
 }
 
 async function getXRP() {
