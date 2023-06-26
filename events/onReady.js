@@ -63,10 +63,10 @@ function onReady(client) {
         getPoolChanges(client)
     }, 2 * 60 * 1000) // 2 minutes
 
-    getMint(client)
-    setInterval(() => {
-        getMint(client)
-    }, 30 * 60 * 1000) // 30 minutes
+    //getMint(client)
+    //setInterval(() => {
+    //    getMint(client)
+    //}, 30 * 60 * 1000) // 30 minutes
 }
 
 async function getXRP() {
