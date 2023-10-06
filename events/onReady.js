@@ -6,6 +6,7 @@ const path = require('node:path');
 const { REST, Routes, Collection } = require('discord.js');
 //const axios = require('axios'); // Required for getXRP example below
 const { getPoolChanges } = require('../main/getPoolChanges');
+const { getCryptoPrices } = require('../main/getCryptoPrices');
 const { getMint } = require('../main/getMintChanges');
 
 function onReady(client) {
@@ -57,6 +58,11 @@ function onReady(client) {
     // In this example, getting XRP price and updating it every 5 minutes
     //getXRPToken(); 
     //setInterval(getXRPToken, Math.max(1, 5 || 1) * 60 * 1000);
+
+    getCryptoPrices(client)
+    setInterval(() => {
+        getCryptoPrices(client)
+    }, 5 * 60 * 1000) // 5 minutes
 
     getPoolChanges(client)
     setInterval(() => {
