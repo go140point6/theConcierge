@@ -62,12 +62,12 @@ function onReady(client) {
     getCryptoPrices(client)
     setInterval(() => {
         getCryptoPrices(client)
-    }, 5 * 60 * 1000) // 5 minutes
+    }, 1440 * 60 * 1000) // 1 day
 
     getPoolChanges(client)
     setInterval(() => {
         getPoolChanges(client)
-    }, 360 * 60 * 1000) // 6 hours
+    }, 2 * 60 * 1000) // 2 minutes
 
     //getMint(client)
     //setInterval(() => {
