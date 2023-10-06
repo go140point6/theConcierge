@@ -67,7 +67,7 @@ function onReady(client) {
     getPoolChanges(client)
     setInterval(() => {
         getPoolChanges(client)
-    }, 2 * 60 * 1000) // 2 minutes
+    }, 360 * 60 * 1000) // 6 hours
 
     //getMint(client)
     //setInterval(() => {
