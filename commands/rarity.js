@@ -2,26 +2,42 @@ require('dotenv').config({ path: '../.env' }) // Load .env file from root!
 require('log-timestamp')
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const client = require('../index');
-const { namedArrays } = require('../index')
 
-var tokenInfo = namedArrays['nftChoices']
-var rarityOG = namedArrays['rarityOGInfo']
-var rarityFrens = namedArrays['rarityFrensInfo']
+let tokenInfo;
+let rarityOG;
+let rarityFrens;
+let choices;
+
+const createMainArrayPromise = createMainArray()
+.then(() => {
+    return createSupportArrays();
+})
+.then((namedArrays) => {
+    tokenInfo = namedArrays['nftChoices']
+    rarityOG = namedArrays['rarityOGInfo']
+    rarityFrens = namedArrays['rarityFrensInfo']
+    choices = tokenInfo.map((token) => {
+        return { name: `${token.fullname}`, value: token.fullname }
+    })
+})
+.catch((error) => {
+    console.error(error)
+})
 
 const slashCommand = new SlashCommandBuilder()
     .setName(`rarity`)
     .setDescription(`Flaremingo family NFT rarity checker.`)
 
-    const choices = tokenInfo.map((token) => {
-        return { name: `${token.fullname}`, value: token.fullname }
-    })
-
     const nftFamilyOption = option =>
-        option.setName('project')
-            .setDescription('What Flaremingo Family project would you like to check?')
-            .setRequired(true)
-            .addChoices(...choices) // Spread the choices array as separate arguments
-    
+    option.setName('project')
+        .setDescription('What Flaremingo Family project would you like to check?')
+        .setRequired(true)
+        //.addChoices(...choices) // Spread the choices array as separate arguments
+        .addChoices(
+            { name: 'Flaremingos', value: 'Flaremingos' },
+            { name: 'Flaremingo Frens', value: 'Flaremingo Frens' },
+        )
+
     slashCommand.addStringOption(nftFamilyOption)
 
     const nftNumberOption = option =>
@@ -36,6 +52,7 @@ const slashCommand = new SlashCommandBuilder()
 module.exports = {
     data: slashCommand,
     async execute(interaction) {
+        await createMainArrayPromise
         await interaction.deferReply();  //requires interaction.editReply
 
         let nftFamily = (interaction.options.getString("project", true))
@@ -98,5 +115,3 @@ module.exports = {
         }
     } 
 }
-
-  

@@ -9,7 +9,7 @@ const { getPoolChanges } = require('../main/getPoolChanges');
 const { getCryptoPrices } = require('../main/getCryptoPrices');
 const { getMint } = require('../main/getMintChanges');
 
-function onReady(client) {
+async function onReady(client, wNatFlrInstance) {
     console.log(`Ready! Logged in as ${client.user.tag}`)
     
     client.commands = new Collection();
@@ -59,14 +59,14 @@ function onReady(client) {
     //getXRPToken(); 
     //setInterval(getXRPToken, Math.max(1, 5 || 1) * 60 * 1000);
 
-    getCryptoPrices(client)
+    await getCryptoPrices(client)
     setInterval(() => {
         getCryptoPrices(client)
     }, 1440 * 60 * 1000) // 1 day
 
-    getPoolChanges(client)
+    getPoolChanges(client, wNatFlrInstance)
     setInterval(() => {
-        getPoolChanges(client)
+        getPoolChanges(client, wNatFlrInstance)
     }, 2 * 60 * 1000) // 2 minutes
 
     //getMint(client)

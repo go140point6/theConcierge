@@ -1,20 +1,21 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const client = require('../index')
+const { connectFlare } = require('../utils/connectFlareInstances');
+const { connectSongbird } = require('../utils/connectSongbirdInstances');
 //const { client, registrySgbFtsoInstance, managerSgbFtsoInstance } = require('../index')
 //const { registrySgbFtsoInstance, managerSgbFtsoInstance } = require('../index')
 
 
 const slashCommand = new SlashCommandBuilder()
     .setName('epoch')
-    .setDescription('Get current Epoch and Lock Deadline information for Songbird and Flare.')
+    .setDescription('Get current Epoch and Lock Deadline information for Flare.')
 
     const NetworkOptions = option =>
         option.setName('network')
-            .setDescription('What network do you want to check?')
+            .setDescription('What network do you want to check? (Only Flare for now)')
             .setRequired(true)
             .addChoices(
                 { name: 'Flare', value: 'flare' },
-                { name: 'Songbird', value: 'songbird' },
             )
     
     slashCommand.addStringOption(NetworkOptions)
@@ -29,6 +30,9 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply();  //requires interaction.editReply
 
+        const { managerFlrFtsoInstance } = await connectFlare();
+        const { managerSgbFtsoInstance } = await connectSongbird();
+
         let network = (interaction.options.getString("network", true))
         //console.log(network)
 
@@ -40,9 +44,9 @@ module.exports = {
         //console.log(managerSgbFtsoInstance)
 
         if (network === 'flare') {
-            managerFtsoInstance = client.managerFlrFtsoInstance
+            managerFtsoInstance = managerFlrFtsoInstance
         } else if (network === 'songbird') {
-            managerFtsoInstance = client.managerSgbFtsoInstance
+            managerFtsoInstance = managerSgbFtsoInstance
         }
         try {
         epoch = Number(await managerFtsoInstance.getCurrentRewardEpoch()) // Number
