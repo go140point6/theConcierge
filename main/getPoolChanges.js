@@ -10,7 +10,7 @@ let wFlrBalanceNew
 let channel_pool
 let percent
 
-async function getPoolChanges(client) {
+async function getPoolChanges(client, wNatFlrInstance) {
     channel_pool = client.channels.cache.get(process.env.CHANNEL_ID_POOL)
     const mingoPoolAddress = "0xF837a20EE9a11BA1309526A4985A3B72278FA722"
     const decimalFormatter = createDecimalFormatter(2,2)
@@ -18,7 +18,8 @@ async function getPoolChanges(client) {
 
     try {
         
-        wFlrBalanceNewNum = (Number(await client.wNatFlrInstance.balanceOf(mingoPoolAddress))/1e18)
+        wFlrBalanceNewNum = (Number(await wNatFlrInstance.balanceOf(mingoPoolAddress))/1e18)
+        //console.log("From getPoolChanges:", wFlrBalanceNewNum)
         
         if ( wFlrBalanceOldNum === 0 ) {
             wFlrBalanceOldNum = wFlrBalanceNewNum
@@ -40,7 +41,7 @@ async function getPoolChanges(client) {
             wFlrBalanceOldNum = wFlrBalanceNewNum
 
         } else if ( wFlrBalanceNewNum === wFlrBalanceOldNum ) {
-            //console.log("No detected changes in the MingoPool.")
+            console.log("No detected changes in the MingoPool.")
         }
         
     } catch (error) {

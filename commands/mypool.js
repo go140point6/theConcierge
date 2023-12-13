@@ -3,6 +3,7 @@ const client = require('../index');
 //const axios = require('axios');
 //const currentFLR = require('../events/onReady');
 //const currentWFLR = require('../events/onReady');
+const { connectFlare } = require('../utils/connectFlareInstances');
 const { createCurrencyFormatter, createDecimalFormatter } = require('../utils/intlNumberFormats')
 
 const mingoPoolAddress = "0xF837a20EE9a11BA1309526A4985A3B72278FA722"
@@ -18,6 +19,7 @@ let yourPerMingoWFlr
 let yourPerMingoUSD
 let perMingoYours
 
+
 const slashCommand = new SlashCommandBuilder()
     .setName(`mypool`)
     .setDescription(`Your MingoPool share in wFLR and USD.`)
@@ -32,14 +34,15 @@ module.exports = {
     data: slashCommand,
     async execute(interaction) {
         //await interaction.deferReply();  //requires interaction.editReply
-
+        const { registryFlrFtsoInstance, wNatFlrInstance } = await connectFlare();
         mingos = (interaction.options.getString("mingos", true))
 
         try {
-            let wFlrBalance = (Number(await client.wNatFlrInstance.balanceOf(mingoPoolAddress))/1e18)
+
+            let wFlrBalance = (Number(await wNatFlrInstance.balanceOf(mingoPoolAddress))/1e18)
             wFlrBalanceFormatted = decimalFormatter.format(wFlrBalance)
 
-            let results = await client.registryFlrFtsoInstance["getCurrentPriceWithDecimals(string)"]('FLR')
+            let results = await registryFlrFtsoInstance["getCurrentPriceWithDecimals(string)"]('FLR')
             let decimals = Number(results._assetPriceUsdDecimals)
             let baseUSD = Number(results._price) / 10 ** decimals
             let flrPool = baseUSD * wFlrBalance
