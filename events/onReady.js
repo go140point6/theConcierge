@@ -64,10 +64,10 @@ async function onReady(client, wNatFlrInstance) {
         getCryptoPrices(client)
     }, 1440 * 60 * 1000) // 1 day
 
-    getPoolChanges(client, wNatFlrInstance)
-    setInterval(() => {
-        getPoolChanges(client, wNatFlrInstance)
-    }, 2 * 60 * 1000) // 2 minutes
+    // getPoolChanges(client, wNatFlrInstance)
+    // setInterval(() => {
+    //     getPoolChanges(client, wNatFlrInstance)
+    // }, 2 * 60 * 1000) // 2 minutes
 
     //getMint(client)
     //setInterval(() => {
